@@ -7,12 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import AnnouncementCarousel from '@/components/AnnouncementCarousel';
 
 // Sample announcements
 const announcements = [
-  { id: 1, en: '📚 A/L Exam Preparation Seminar - January 2025', ta: '📚 உ.த. தேர்வு தயாரிப்பு கருத்தரங்கு - ஜனவரி 2025' },
-  { id: 2, en: '🩸 Blood Donation Camp - Save Lives Today', ta: '🩸 இரத்ததான முகாம் - இன்றே உயிர்களைக் காப்பாற்றுங்கள்' },
-  { id: 3, en: '🌳 Anbuchangamam Tree Planting Event - Join Us!', ta: '🌳 அன்புசங்கமம் மரம் நடும் நிகழ்வு - எங்களுடன் இணையுங்கள்!' },
+  { id: 1, en: '📚 A/L Exam Preparation Seminar - January 2025', ta: '📚 உ.த. தேர்வு தயாரிப்பு கருத்தரங்கு - ஜனவரி 2025', type: 'event' as const },
+  { id: 2, en: '🩸 Blood Donation Camp - Save Lives Today', ta: '🩸 இரத்ததான முகாம் - இன்றே உயிர்களைக் காப்பாற்றுங்கள்', type: 'urgent' as const },
+  { id: 3, en: '🌳 Anbuchangamam Tree Planting Event - Join Us!', ta: '🌳 அன்புசங்கமம் மரம் நடும் நிகழ்வு - எங்களுடன் இணையுங்கள்!', type: 'event' as const },
+  { id: 4, en: '🎓 New Scholarship Program Announced for 2025', ta: '🎓 2025 க்கான புதிய உதவித்தொகை திட்டம் அறிவிக்கப்பட்டது', type: 'news' as const },
 ];
 
 // Sample events
@@ -64,27 +66,9 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="relative overflow-hidden">
-      {/* Announcement Ticker */}
-      <div className="relative bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border-b border-primary/20 overflow-hidden">
-        <div className="py-3">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 px-4">
-              <span className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold">
-                <Sparkles className="w-3 h-3" />
-                {language === 'en' ? 'NEWS' : 'செய்தி'}
-              </span>
-            </div>
-            <div className="flex-1 overflow-hidden">
-              <div className="animate-ticker flex whitespace-nowrap">
-                {[...announcements, ...announcements].map((item, idx) => (
-                  <span key={idx} className="mx-12 text-sm text-foreground/80">
-                    {language === 'en' ? item.en : item.ta}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Announcement Carousel */}
+      <div className="pt-24">
+        <AnnouncementCarousel announcements={announcements} />
       </div>
 
       {/* Hero Section with Parallax */}
