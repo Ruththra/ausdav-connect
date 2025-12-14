@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['DM Sans', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
-        tamil: ['Noto Sans Tamil', 'DM Sans', 'sans-serif'],
+        sans: ['Outfit', 'sans-serif'],
+        heading: ['Space Grotesk', 'sans-serif'],
+        tamil: ['Noto Sans Tamil', 'Outfit', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -93,8 +93,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        'glow': '0 0 30px hsl(45 93% 58% / 0.3)',
-        'glow-lg': '0 0 50px hsl(45 93% 58% / 0.4)',
+        'glow': '0 0 40px hsl(45 100% 55% / 0.2)',
+        'glow-strong': '0 0 60px hsl(45 100% 55% / 0.35)',
       },
     },
   },

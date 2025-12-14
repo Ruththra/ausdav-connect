@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Users, Calendar, MessageSquare, ChevronRight } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, BookOpen, Users, Calendar, MessageSquare, ChevronRight, Sparkles, GraduationCap, Heart, Zap } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,34 +15,42 @@ const announcements = [
   { id: 3, en: '🌳 Anbuchangamam Tree Planting Event - Join Us!', ta: '🌳 அன்புசங்கமம் மரம் நடும் நிகழ்வு - எங்களுடன் இணையுங்கள்!' },
 ];
 
-// Sample events for the tree
+// Sample events
 const annualEvents = [
-  { id: 1, month: 'Jan', en: 'A/L Exam Prep Seminar', ta: 'உ.த. தேர்வு தயாரிப்பு கருத்தரங்கு' },
-  { id: 2, month: 'Mar', en: 'Career Guidance Workshop', ta: 'தொழில் வழிகாட்டுதல் பட்டறை' },
-  { id: 3, month: 'May', en: 'University Orientation', ta: 'பல்கலைக்கழக நோக்குநிலை' },
-  { id: 4, month: 'Jul', en: 'Anbuchangamam', ta: 'அன்புசங்கமம்' },
-  { id: 5, month: 'Sep', en: 'Blood Donation Camp', ta: 'இரத்ததான முகாம்' },
-  { id: 6, month: 'Nov', en: 'Annual Award Ceremony', ta: 'வருடாந்த விருது வழங்கல்' },
+  { id: 1, month: 'Jan', en: 'A/L Exam Prep Seminar', ta: 'உ.த. தேர்வு தயாரிப்பு கருத்தரங்கு', icon: GraduationCap },
+  { id: 2, month: 'Mar', en: 'Career Guidance Workshop', ta: 'தொழில் வழிகாட்டுதல் பட்டறை', icon: Zap },
+  { id: 3, month: 'May', en: 'University Orientation', ta: 'பல்கலைக்கழக நோக்குநிலை', icon: BookOpen },
+  { id: 4, month: 'Jul', en: 'Anbuchangamam', ta: 'அன்புசங்கமம்', icon: Heart },
+  { id: 5, month: 'Sep', en: 'Blood Donation Camp', ta: 'இரத்ததான முகாம்', icon: Heart },
+  { id: 6, month: 'Nov', en: 'Annual Award Ceremony', ta: 'வருடாந்த விருது வழங்கல்', icon: Sparkles },
 ];
 
-// Sample committee members
+// Sample committee
 const committeePreview = [
   { id: 1, role: 'President', roleTA: 'தலைவர்', name: 'Dr. K. Suresh', batch: '2015' },
   { id: 2, role: 'Secretary', roleTA: 'செயலாளர்', name: 'Ms. T. Priya', batch: '2018' },
   { id: 3, role: 'Treasurer', roleTA: 'பொருளாளர்', name: 'Mr. S. Rajan', batch: '2017' },
 ];
 
+const stats = [
+  { value: '500+', label: 'Students Helped', labelTA: 'உதவிய மாணவர்கள்' },
+  { value: '50+', label: 'Events Organized', labelTA: 'நிகழ்வுகள்' },
+  { value: '10+', label: 'Years of Service', labelTA: 'சேவை ஆண்டுகள்' },
+  { value: '100%', label: 'Commitment', labelTA: 'அர்ப்பணிப்பு' },
+];
+
 const HomePage: React.FC = () => {
   const { language, t } = useLanguage();
-  const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
   const [feedbackForm, setFeedbackForm] = useState({ name: '', contact: '', message: '' });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentAnnouncement((prev) => (prev + 1) % announcements.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  const heroRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const handleFeedbackSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,117 +63,217 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="relative overflow-hidden">
       {/* Announcement Ticker */}
-      <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center gap-3">
-            <span className="bg-secondary text-secondary-foreground px-2 py-0.5 rounded text-xs font-semibold flex-shrink-0">
-              {language === 'en' ? 'NEWS' : 'செய்தி'}
-            </span>
-            <div className="overflow-hidden flex-1">
-              <motion.p
-                key={currentAnnouncement}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="text-sm whitespace-nowrap"
-              >
-                {language === 'en' 
-                  ? announcements[currentAnnouncement].en 
-                  : announcements[currentAnnouncement].ta}
-              </motion.p>
+      <div className="relative bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border-b border-primary/20 overflow-hidden">
+        <div className="py-3">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 px-4">
+              <span className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-bold">
+                <Sparkles className="w-3 h-3" />
+                {language === 'en' ? 'NEWS' : 'செய்தி'}
+              </span>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <div className="animate-ticker flex whitespace-nowrap">
+                {[...announcements, ...announcements].map((item, idx) => (
+                  <span key={idx} className="mx-12 text-sm text-foreground/80">
+                    {language === 'en' ? item.en : item.ta}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative gradient-hero py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(45_93%_58%/0.3),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(45_93%_58%/0.2),transparent_40%)]" />
-        </div>
+      {/* Hero Section with Parallax */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background layers */}
+        <div className="absolute inset-0 bg-background" />
+        <motion.div 
+          style={{ y }}
+          className="absolute inset-0 gradient-mesh"
+        />
         
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center shadow-glow">
-              <span className="text-4xl font-serif font-bold text-primary">A</span>
-            </div>
-            
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-primary-foreground mb-6 leading-tight">
-              {t('home.hero.title')}
-            </h1>
-            
-            <p className="text-lg md:text-xl text-primary-foreground/80 mb-8">
+        {/* Animated orbs */}
+        <motion.div 
+          animate={{ 
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="orb orb-gold w-[600px] h-[600px] -top-64 -right-64"
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -80, 0],
+            y: [0, 80, 0],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="orb orb-blue w-[500px] h-[500px] -bottom-64 -left-64"
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="orb orb-purple w-[400px] h-[400px] top-1/3 left-1/4"
+        />
+
+        {/* Content */}
+        <motion.div 
+          style={{ opacity }}
+          className="container mx-auto px-4 relative z-10 py-32"
+        >
+          <div className="max-w-5xl mx-auto text-center">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 glass-card px-4 py-2 rounded-full mb-8"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              <span className="text-sm text-muted-foreground">
+                {language === 'en' ? 'Empowering Future Leaders Since 2015' : '2015 முதல் எதிர்கால தலைவர்களை மேம்படுத்துகிறோம்'}
+              </span>
+            </motion.div>
+
+            {/* Main heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+            >
+              <span className="text-foreground">{language === 'en' ? 'Building ' : 'எதிர்காலத்தை '}</span>
+              <span className="text-gradient">{language === 'en' ? 'Tomorrow\'s' : 'கட்டமைக்கும்'}</span>
+              <br />
+              <span className="text-foreground">{language === 'en' ? 'Leaders Today' : 'இன்றைய தலைவர்கள்'}</span>
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            >
               {t('home.hero.subtitle')}
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild variant="hero" size="xl">
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
+              <Button asChild size="xl" className="group">
                 <Link to="/about">
                   {t('home.hero.cta')}
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
-              <Button asChild variant="heroOutline" size="xl">
+              <Button asChild variant="outline" size="xl" className="border-border/50 hover:border-primary/50 hover:bg-primary/5">
                 <Link to="/events">
                   {t('nav.events')}
                 </Link>
               </Button>
-            </div>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20"
+            >
+              {stats.map((stat, idx) => (
+                <motion.div
+                  key={idx}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="glass-card rounded-2xl p-6 hover-glow"
+                >
+                  <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">{stat.value}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {language === 'en' ? stat.label : stat.labelTA}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-1"
+          >
+            <motion.div className="w-1.5 h-3 bg-primary rounded-full" />
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Who We Are */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-24 relative">
+        <div className="absolute inset-0 gradient-mesh opacity-30" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 bg-secondary/20 text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium mb-4">
-                <Users className="w-4 h-4" />
-                <span>{language === 'en' ? 'About Us' : 'எங்களைப் பற்றி'}</span>
+              <div className="inline-flex items-center gap-2 glass-card px-4 py-2 rounded-full text-sm mb-6">
+                <Users className="w-4 h-4 text-primary" />
+                <span className="text-muted-foreground">{language === 'en' ? 'About Us' : 'எங்களைப் பற்றி'}</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-6">
-                {t('home.who.title')}
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                {language === 'en' ? 'Who ' : ''}
+                <span className="text-gradient">{language === 'en' ? 'We Are' : 'நாங்கள் யார்?'}</span>
               </h2>
-              <p className="text-muted-foreground leading-relaxed text-lg">
+              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
                 {t('home.who.description')}
               </p>
-              <Button asChild variant="outline" className="mt-6">
+              <Button asChild variant="outline" className="group border-border/50 hover:border-primary/50">
                 <Link to="/about">
                   {language === 'en' ? 'Learn More' : 'மேலும் அறிய'}
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="aspect-video rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden shadow-xl">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <BookOpen className="w-16 h-16 text-secondary mx-auto mb-4" />
-                    <p className="text-foreground font-medium">
-                      {language === 'en' ? 'Empowering Education' : 'கல்வியை வலுப்படுத்துதல்'}
-                    </p>
-                  </div>
+              <div className="glass-card rounded-3xl p-8 relative overflow-hidden hover-lift">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent/10 rounded-full blur-3xl" />
+                <div className="relative z-10 text-center py-12">
+                  <BookOpen className="w-20 h-20 text-primary mx-auto mb-6" />
+                  <h3 className="text-2xl font-bold mb-2">
+                    {language === 'en' ? 'Empowering Education' : 'கல்வியை வலுப்படுத்துதல்'}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {language === 'en' ? 'Since 2015' : '2015 முதல்'}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -174,71 +282,64 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* What We Do */}
-      <section className="py-16 md:py-24 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-2 md:order-1"
-            >
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: BookOpen, label: language === 'en' ? 'Seminars' : 'கருத்தரங்குகள்' },
-                  { icon: Users, label: language === 'en' ? 'Mentorship' : 'வழிகாட்டுதல்' },
-                  { icon: Calendar, label: language === 'en' ? 'Events' : 'நிகழ்வுகள்' },
-                  { icon: MessageSquare, label: language === 'en' ? 'Support' : 'ஆதரவு' },
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: idx * 0.1 }}
-                    className="bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
-                  >
-                    <item.icon className="w-8 h-8 text-secondary mb-3" />
-                    <p className="font-medium text-foreground">{item.label}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 md:order-2"
-            >
-              <div className="inline-flex items-center gap-2 bg-secondary/20 text-secondary-foreground px-3 py-1 rounded-full text-sm font-medium mb-4">
-                <Calendar className="w-4 h-4" />
-                <span>{language === 'en' ? 'Our Programs' : 'எங்கள் திட்டங்கள்'}</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-6">
-                {t('home.what.title')}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {t('home.what.description')}
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Annual Events Tree */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-24 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-              {t('home.events.title')}
+            <div className="inline-flex items-center gap-2 glass-card px-4 py-2 rounded-full text-sm mb-6">
+              <Calendar className="w-4 h-4 text-primary" />
+              <span className="text-muted-foreground">{language === 'en' ? 'Our Programs' : 'எங்கள் திட்டங்கள்'}</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold">
+              {language === 'en' ? 'What ' : ''}
+              <span className="text-gradient">{language === 'en' ? 'We Do' : 'நாங்கள் என்ன செய்கிறோம்'}</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: BookOpen, label: language === 'en' ? 'Seminars' : 'கருத்தரங்குகள்', desc: language === 'en' ? 'Educational workshops' : 'கல்வி பட்டறைகள்' },
+              { icon: Users, label: language === 'en' ? 'Mentorship' : 'வழிகாட்டுதல்', desc: language === 'en' ? 'Career guidance' : 'தொழில் வழிகாட்டுதல்' },
+              { icon: Calendar, label: language === 'en' ? 'Events' : 'நிகழ்வுகள்', desc: language === 'en' ? 'Community programs' : 'சமூக திட்டங்கள்' },
+              { icon: MessageSquare, label: language === 'en' ? 'Support' : 'ஆதரவு', desc: language === 'en' ? 'Student assistance' : 'மாணவர் உதவி' },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="glass-card rounded-2xl p-8 text-center hover-glow group"
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <item.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">{item.label}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Annual Events Timeline */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 gradient-mesh opacity-20" />
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              {language === 'en' ? 'Annual ' : 'வருடாந்த '}
+              <span className="text-gradient">{language === 'en' ? 'Events' : 'நிகழ்வுகள்'}</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {language === 'en' 
@@ -247,32 +348,39 @@ const HomePage: React.FC = () => {
             </p>
           </motion.div>
 
-          {/* Tree Structure */}
           <div className="relative max-w-4xl mx-auto">
-            {/* Center Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-secondary via-primary to-secondary -translate-x-1/2" />
+            {/* Timeline line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent -translate-x-1/2" />
             
-            <div className="space-y-8">
+            <div className="space-y-12">
               {annualEvents.map((event, idx) => (
                 <motion.div
                   key={event.id}
                   initial={{ opacity: 0, x: idx % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className={`flex items-center gap-4 ${idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className={`flex items-center gap-6 ${idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
                 >
                   <div className={`flex-1 ${idx % 2 === 0 ? 'text-right' : 'text-left'}`}>
-                    <div className={`inline-block bg-card rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow ${idx % 2 === 0 ? 'mr-4' : 'ml-4'}`}>
-                      <span className="text-xs font-semibold text-secondary uppercase tracking-wider">{event.month}</span>
-                      <p className="font-medium text-foreground mt-1">
+                    <motion.div 
+                      whileHover={{ scale: 1.02 }}
+                      className={`inline-block glass-card rounded-2xl p-6 hover-glow ${idx % 2 === 0 ? 'mr-6' : 'ml-6'}`}
+                    >
+                      <span className="text-xs font-bold text-primary uppercase tracking-wider">{event.month}</span>
+                      <p className="font-bold text-lg mt-2">
                         {language === 'en' ? event.en : event.ta}
                       </p>
-                    </div>
+                    </motion.div>
                   </div>
                   
-                  {/* Center Node */}
-                  <div className="relative z-10 w-4 h-4 rounded-full bg-secondary shadow-glow flex-shrink-0" />
+                  {/* Center icon */}
+                  <motion.div 
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    className="relative z-10 w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-glow flex-shrink-0"
+                  >
+                    <event.icon className="w-6 h-6 text-primary-foreground" />
+                  </motion.div>
                   
                   <div className="flex-1" />
                 </motion.div>
@@ -282,42 +390,42 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Executive Committee Preview */}
-      <section className="py-16 md:py-24 bg-primary">
+      {/* Executive Committee */}
+      <section className="py-24 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-foreground mb-4">
-              {t('home.committee.title')}
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              {language === 'en' ? 'Our ' : 'எங்கள் '}
+              <span className="text-gradient">{language === 'en' ? 'Leadership' : 'தலைமை'}</span>
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {committeePreview.map((member, idx) => (
               <motion.div
                 key={member.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-primary-foreground/10 backdrop-blur-sm rounded-xl p-6 text-center"
+                transition={{ duration: 0.6, delay: idx * 0.15 }}
+                whileHover={{ y: -10 }}
+                className="glass-card rounded-2xl p-8 text-center hover-glow"
               >
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center shadow-md">
-                  <span className="text-2xl font-serif font-bold text-primary">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-glow">
+                  <span className="text-3xl font-bold text-primary-foreground">
                     {member.name.charAt(0)}
                   </span>
                 </div>
-                <h3 className="font-serif font-semibold text-primary-foreground text-lg">
-                  {member.name}
-                </h3>
-                <p className="text-secondary font-medium">
+                <h3 className="font-bold text-xl mb-1">{member.name}</h3>
+                <p className="text-primary font-medium mb-2">
                   {language === 'en' ? member.role : member.roleTA}
                 </p>
-                <p className="text-primary-foreground/60 text-sm mt-1">
+                <p className="text-sm text-muted-foreground">
                   {language === 'en' ? 'Batch' : 'தொகுதி'} {member.batch}
                 </p>
               </motion.div>
@@ -328,12 +436,12 @@ const HomePage: React.FC = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mt-8"
+            className="text-center mt-12"
           >
-            <Button asChild variant="heroOutline" size="lg">
+            <Button asChild variant="outline" size="lg" className="group border-border/50 hover:border-primary/50">
               <Link to="/committee">
                 {t('home.committee.viewAll')}
-                <ChevronRight className="w-4 h-4 ml-1" />
+                <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
           </motion.div>
@@ -341,17 +449,20 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Feedback Section */}
-      <section className="py-16 md:py-24 bg-muted">
-        <div className="container mx-auto px-4">
+      <section className="py-24 relative">
+        <div className="absolute inset-0 gradient-mesh opacity-30" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center mb-8"
+              className="text-center mb-12"
             >
-              <MessageSquare className="w-12 h-12 text-secondary mx-auto mb-4" />
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <MessageSquare className="w-8 h-8 text-primary" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 {t('home.feedback.title')}
               </h2>
             </motion.div>
@@ -361,44 +472,47 @@ const HomePage: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               onSubmit={handleFeedbackSubmit}
-              className="bg-card rounded-xl p-6 md:p-8 shadow-lg space-y-4"
+              className="glass-card rounded-2xl p-8 space-y-6"
             >
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
+                  <label className="block text-sm font-medium mb-2">
                     {t('home.feedback.name')}
                   </label>
                   <Input
                     value={feedbackForm.name}
                     onChange={(e) => setFeedbackForm({ ...feedbackForm, name: e.target.value })}
                     placeholder={language === 'en' ? 'John Doe' : 'உங்கள் பெயர்'}
+                    className="bg-background/50 border-border/50 focus:border-primary"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
+                  <label className="block text-sm font-medium mb-2">
                     {t('home.feedback.contact')}
                   </label>
                   <Input
                     value={feedbackForm.contact}
                     onChange={(e) => setFeedbackForm({ ...feedbackForm, contact: e.target.value })}
-                    placeholder={language === 'en' ? 'email@example.com' : 'மின்னஞ்சல்'}
+                    placeholder={language === 'en' ? 'Email or Phone' : 'மின்னஞ்சல் அல்லது தொலைபேசி'}
+                    className="bg-background/50 border-border/50 focus:border-primary"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1">
+                <label className="block text-sm font-medium mb-2">
                   {t('home.feedback.message')} *
                 </label>
                 <Textarea
                   value={feedbackForm.message}
                   onChange={(e) => setFeedbackForm({ ...feedbackForm, message: e.target.value })}
-                  placeholder={language === 'en' ? 'Share your thoughts...' : 'உங்கள் எண்ணங்களைப் பகிரவும்...'}
-                  rows={4}
-                  required
+                  placeholder={language === 'en' ? 'Your message...' : 'உங்கள் செய்தி...'}
+                  rows={5}
+                  className="bg-background/50 border-border/50 focus:border-primary resize-none"
                 />
               </div>
-              <Button type="submit" variant="donate" className="w-full">
+              <Button type="submit" size="lg" className="w-full">
                 {t('home.feedback.submit')}
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </motion.form>
           </div>
