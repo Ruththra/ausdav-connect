@@ -57,7 +57,7 @@ const Navbar: React.FC = () => {
               whileHover={{ scale: 1.05, rotate: 5 }}
               className="relative"
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary via-primary to-gold-light flex items-center justify-center shadow-glow">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow">
                 <Sparkles className="w-6 h-6 text-primary-foreground" />
               </div>
               <div className="absolute inset-0 rounded-xl bg-primary/20 blur-xl group-hover:blur-2xl transition-all" />

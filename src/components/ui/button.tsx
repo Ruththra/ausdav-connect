@@ -9,18 +9,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-glow",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        outline: "border border-border bg-transparent text-foreground hover:bg-secondary hover:border-primary/50",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-secondary hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        // NGO-specific variants
-        donate: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-md hover:shadow-glow font-semibold",
-        footerDonate: "bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold",
-        footerLogin: "border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10",
-        hero: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg hover:shadow-glow font-semibold text-base",
-        heroOutline: "border-2 border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground font-semibold text-base",
+        // Blue theme variants
+        donate: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-glow font-semibold",
+        hero: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-glow font-semibold text-base",
+        heroOutline: "border-2 border-foreground/30 text-foreground bg-transparent hover:bg-foreground/10 hover:border-foreground/50 font-semibold text-base",
+        glow: "bg-primary text-primary-foreground shadow-glow hover:shadow-glow-strong font-semibold",
       },
       size: {
         default: "h-10 px-4 py-2",
