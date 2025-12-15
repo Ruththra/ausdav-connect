@@ -14,9 +14,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('ausdav-theme') as Theme;
       if (saved === 'light' || saved === 'dark') return saved;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      // Default to dark theme
+      return 'dark';
     }
-    return 'light';
+    return 'dark';
   });
 
   useEffect(() => {

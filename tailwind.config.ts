@@ -62,16 +62,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        gold: {
-          DEFAULT: "hsl(var(--gold))",
-          light: "hsl(var(--gold-light))",
-          dark: "hsl(var(--gold-dark))",
+        blue: {
+          primary: "hsl(var(--blue-primary))",
+          glow: "hsl(var(--blue-glow))",
+          soft: "hsl(var(--blue-soft))",
+          deep: "hsl(var(--blue-deep))",
         },
-        navy: {
-          DEFAULT: "hsl(var(--navy))",
-          light: "hsl(var(--navy-light))",
-          dark: "hsl(var(--navy-dark))",
-        },
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        danger: "hsl(var(--danger))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -93,8 +92,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        'glow': '0 0 40px hsl(45 100% 55% / 0.2)',
-        'glow-strong': '0 0 60px hsl(45 100% 55% / 0.35)',
+        'glow': 'var(--shadow-glow)',
+        'glow-strong': 'var(--shadow-glow-strong)',
       },
     },
   },

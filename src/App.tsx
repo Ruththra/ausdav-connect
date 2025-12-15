@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import SplashScreen from "@/components/SplashScreen";
+import NeuralNetworkSplash from "@/components/NeuralNetworkSplash";
 import Layout from "@/components/layout/Layout";
 import HomePage from "@/pages/HomePage";
 import AboutPage from "@/pages/AboutPage";
@@ -25,11 +25,13 @@ const App = () => {
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
+    // Apply dark theme immediately to prevent flash
+    document.documentElement.classList.add('dark');
+    
     // Check if splash was already shown this session
     const hasSeenSplash = sessionStorage.getItem('ausdav-splash-shown');
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    if (hasSeenSplash || prefersReducedMotion) {
+    if (hasSeenSplash) {
       setShowSplash(false);
       setAppReady(true);
     }
@@ -47,7 +49,7 @@ const App = () => {
             <Toaster />
             <Sonner />
             
-            {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+            {showSplash && <NeuralNetworkSplash onComplete={handleSplashComplete} />}
             
             {appReady && (
               <BrowserRouter>

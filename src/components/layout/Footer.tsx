@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
             className="space-y-6"
           >
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-glow">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow">
                 <Sparkles className="w-7 h-7 text-primary-foreground" />
               </div>
               <div>
