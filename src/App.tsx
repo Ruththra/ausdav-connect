@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
@@ -28,6 +28,7 @@ import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 import AdminAnnouncementsPage from "@/pages/admin/AdminAnnouncementsPage";
 import AdminAuditPage from "@/pages/admin/AdminAuditPage";
 import AdminSettingsPage from "@/pages/admin/AdminSettingsPage";
+import AdminPermissionsPage from "@/pages/admin/AdminPermissionsPage";
 import FinanceSubmitPage from "@/pages/admin/finance/FinanceSubmitPage";
 import FinanceVerifyPage from "@/pages/admin/finance/FinanceVerifyPage";
 import FinanceLedgerPage from "@/pages/admin/finance/FinanceLedgerPage";
@@ -78,12 +79,8 @@ const App = () => {
                   <Route element={<Layout><DonatePage /></Layout>} path="/donate" />
                   <Route element={<Layout><LoginPage /></Layout>} path="/login" />
                   
-                  {/* Admin routes */}
-                  <Route path="/admin/login" element={
-                    <AdminAuthProvider>
-                      <AdminLoginPage />
-                    </AdminAuthProvider>
-                  } />
+                  {/* Admin login redirects to unified login */}
+                  <Route path="/admin/login" element={<Navigate to="/login" replace />} />
                   <Route path="/admin" element={
                     <AdminAuthProvider>
                       <AdminLayout />
@@ -94,6 +91,7 @@ const App = () => {
                     <Route path="profile" element={<AdminProfilePage />} />
                     <Route path="members" element={<AdminMembersPage />} />
                     <Route path="announcements" element={<AdminAnnouncementsPage />} />
+                    <Route path="permissions" element={<AdminPermissionsPage />} />
                     <Route path="audit" element={<AdminAuditPage />} />
                     <Route path="settings" element={<AdminSettingsPage />} />
                     <Route path="finance/submit" element={<FinanceSubmitPage />} />
