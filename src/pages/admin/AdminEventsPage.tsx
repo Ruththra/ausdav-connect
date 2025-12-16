@@ -52,17 +52,17 @@ const AdminEventsPage: React.FC = () => {
     is_active: true,
   });
 
-  // Fetch events
+  // Fetch events using raw query
   const { data: events, isLoading } = useQuery({
     queryKey: ['admin-events'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('events')
+        .from('events' as any)
         .select('*')
         .order('event_date', { ascending: false });
       
       if (error) throw error;
-      return data as Event[];
+      return (data || []) as unknown as Event[];
     },
   });
 
@@ -70,8 +70,8 @@ const AdminEventsPage: React.FC = () => {
   const createMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
       const { error } = await supabase
-        .from('events')
-        .insert([data]);
+        .from('events' as any)
+        .insert([data] as any);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -88,8 +88,8 @@ const AdminEventsPage: React.FC = () => {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: typeof formData }) => {
       const { error } = await supabase
-        .from('events')
-        .update(data)
+        .from('events' as any)
+        .update(data as any)
         .eq('id', id);
       if (error) throw error;
     },
@@ -107,7 +107,7 @@ const AdminEventsPage: React.FC = () => {
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('events')
+        .from('events' as any)
         .delete()
         .eq('id', id);
       if (error) throw error;
@@ -125,8 +125,8 @@ const AdminEventsPage: React.FC = () => {
   const toggleMutation = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
       const { error } = await supabase
-        .from('events')
-        .update({ is_active })
+        .from('events' as any)
+        .update({ is_active } as any)
         .eq('id', id);
       if (error) throw error;
     },

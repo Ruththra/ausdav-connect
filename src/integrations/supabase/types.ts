@@ -131,6 +131,51 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description_en: string | null
+          description_ta: string | null
+          event_date: string
+          id: string
+          image_url: string | null
+          is_active: boolean
+          location: string | null
+          title_en: string
+          title_ta: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description_en?: string | null
+          description_ta?: string | null
+          event_date: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          location?: string | null
+          title_en: string
+          title_ta?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description_en?: string | null
+          description_ta?: string | null
+          event_date?: string
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          location?: string | null
+          title_en?: string
+          title_ta?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       finance_submissions: {
         Row: {
           amount: number
