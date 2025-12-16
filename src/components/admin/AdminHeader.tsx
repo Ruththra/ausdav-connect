@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import LiveViewerBadge from '@/components/LiveViewerBadge';
 
 interface AdminHeaderProps {
   title: string;
@@ -23,7 +24,7 @@ export function AdminHeader({ title, breadcrumb }: AdminHeaderProps) {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/admin/login');
+    navigate('/login');
   };
 
   const initials = profile?.full_name
@@ -42,9 +43,12 @@ export function AdminHeader({ title, breadcrumb }: AdminHeaderProps) {
         <h1 className="text-xl font-semibold text-foreground">{title}</h1>
       </div>
 
-      {/* Profile Menu */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      {/* Live Viewer Badge & Profile Menu */}
+      <div className="flex items-center gap-4">
+        <LiveViewerBadge size="sm" />
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="flex items-center gap-3 px-3">
             <Avatar className="h-8 w-8">
               <AvatarImage src={profile?.avatar_url || undefined} />
@@ -82,7 +86,8 @@ export function AdminHeader({ title, breadcrumb }: AdminHeaderProps) {
             Sign Out
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+        </DropdownMenu>
+      </div>
     </header>
   );
 }

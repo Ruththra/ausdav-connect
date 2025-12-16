@@ -11,15 +11,15 @@ export function AdminLayout() {
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        navigate('/admin/login');
+        navigate('/login');
         return;
       }
-      if (profile && !profile.is_active) {
-        navigate('/admin/login?error=inactive');
+      if (profile && !profile.is_active && role !== 'super_admin') {
+        navigate('/login?error=inactive');
         return;
       }
     }
-  }, [user, profile, loading, navigate]);
+  }, [user, profile, role, loading, navigate]);
 
   if (loading) {
     return (

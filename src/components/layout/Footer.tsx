@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
               <Button asChild variant="outline" size="sm" className="flex-1 border-border/50 hover:border-primary/50">
                 <Link to="/login">
                   <LogIn className="w-4 h-4 mr-1.5" />
-                  {t('nav.login')}
+                  Login
                 </Link>
               </Button>
             </div>
