@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
 import NeuralNetworkSplash from "@/components/NeuralNetworkSplash";
 import Layout from "@/components/layout/Layout";
 import HomePage from "@/pages/HomePage";
@@ -17,6 +18,19 @@ import EventsPage from "@/pages/EventsPage";
 import DonatePage from "@/pages/DonatePage";
 import LoginPage from "@/pages/LoginPage";
 import NotFoundPage from "@/pages/NotFoundPage";
+
+// Admin imports
+import { AdminLayout } from "@/components/admin/AdminLayout";
+import AdminLoginPage from "@/pages/admin/AdminLoginPage";
+import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
+import AdminProfilePage from "@/pages/admin/AdminProfilePage";
+import AdminMembersPage from "@/pages/admin/AdminMembersPage";
+import AdminAnnouncementsPage from "@/pages/admin/AdminAnnouncementsPage";
+import AdminAuditPage from "@/pages/admin/AdminAuditPage";
+import AdminSettingsPage from "@/pages/admin/AdminSettingsPage";
+import FinanceSubmitPage from "@/pages/admin/finance/FinanceSubmitPage";
+import FinanceVerifyPage from "@/pages/admin/finance/FinanceVerifyPage";
+import FinanceLedgerPage from "@/pages/admin/finance/FinanceLedgerPage";
 
 const queryClient = new QueryClient();
 
@@ -53,19 +67,43 @@ const App = () => {
             
             {appReady && (
               <BrowserRouter>
-                <Layout>
-                  <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/committee" element={<CommitteePage />} />
-                    <Route path="/exam" element={<ExamPage />} />
-                    <Route path="/seminar" element={<SeminarPage />} />
-                    <Route path="/events" element={<EventsPage />} />
-                    <Route path="/donate" element={<DonatePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Routes>
-                </Layout>
+                <Routes>
+                  {/* Public routes with Layout */}
+                  <Route element={<Layout><HomePage /></Layout>} path="/" />
+                  <Route element={<Layout><AboutPage /></Layout>} path="/about" />
+                  <Route element={<Layout><CommitteePage /></Layout>} path="/committee" />
+                  <Route element={<Layout><ExamPage /></Layout>} path="/exam" />
+                  <Route element={<Layout><SeminarPage /></Layout>} path="/seminar" />
+                  <Route element={<Layout><EventsPage /></Layout>} path="/events" />
+                  <Route element={<Layout><DonatePage /></Layout>} path="/donate" />
+                  <Route element={<Layout><LoginPage /></Layout>} path="/login" />
+                  
+                  {/* Admin routes */}
+                  <Route path="/admin/login" element={
+                    <AdminAuthProvider>
+                      <AdminLoginPage />
+                    </AdminAuthProvider>
+                  } />
+                  <Route path="/admin" element={
+                    <AdminAuthProvider>
+                      <AdminLayout />
+                    </AdminAuthProvider>
+                  }>
+                    <Route index element={<AdminDashboardPage />} />
+                    <Route path="dashboard" element={<AdminDashboardPage />} />
+                    <Route path="profile" element={<AdminProfilePage />} />
+                    <Route path="members" element={<AdminMembersPage />} />
+                    <Route path="announcements" element={<AdminAnnouncementsPage />} />
+                    <Route path="audit" element={<AdminAuditPage />} />
+                    <Route path="settings" element={<AdminSettingsPage />} />
+                    <Route path="finance/submit" element={<FinanceSubmitPage />} />
+                    <Route path="finance/verify" element={<FinanceVerifyPage />} />
+                    <Route path="finance/ledger" element={<FinanceLedgerPage />} />
+                  </Route>
+                  
+                  {/* 404 */}
+                  <Route path="*" element={<Layout><NotFoundPage /></Layout>} />
+                </Routes>
               </BrowserRouter>
             )}
           </TooltipProvider>
