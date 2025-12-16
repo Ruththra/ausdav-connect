@@ -14,16 +14,288 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      announcements: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          cta_label: string | null
+          end_at: string | null
+          id: string
+          is_active: boolean
+          link_url: string | null
+          message_en: string | null
+          message_ta: string | null
+          priority: number
+          start_at: string | null
+          tag: string | null
+          title_en: string
+          title_ta: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          end_at?: string | null
+          id?: string
+          is_active?: boolean
+          link_url?: string | null
+          message_en?: string | null
+          message_ta?: string | null
+          priority?: number
+          start_at?: string | null
+          tag?: string | null
+          title_en: string
+          title_ta?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          end_at?: string | null
+          id?: string
+          is_active?: boolean
+          link_url?: string | null
+          message_en?: string | null
+          message_ta?: string | null
+          priority?: number
+          start_at?: string | null
+          tag?: string | null
+          title_en?: string
+          title_ta?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          details: Json | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      finance_submissions: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          payer_payee: string | null
+          receipt_path: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["submission_status"]
+          submitted_by: string | null
+          txn_date: string
+          txn_type: Database["public"]["Enums"]["txn_type"]
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          payer_payee?: string | null
+          receipt_path?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          submitted_by?: string | null
+          txn_date: string
+          txn_type: Database["public"]["Enums"]["txn_type"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          payer_payee?: string | null
+          receipt_path?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["submission_status"]
+          submitted_by?: string | null
+          txn_date?: string
+          txn_type?: Database["public"]["Enums"]["txn_type"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
+      finance_transactions: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          payer_payee: string | null
+          receipt_path: string | null
+          source_submission_id: string | null
+          txn_date: string
+          txn_type: Database["public"]["Enums"]["txn_type"]
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          payer_payee?: string | null
+          receipt_path?: string | null
+          source_submission_id?: string | null
+          txn_date: string
+          txn_type: Database["public"]["Enums"]["txn_type"]
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          payer_payee?: string | null
+          receipt_path?: string | null
+          source_submission_id?: string | null
+          txn_date?: string
+          txn_type?: Database["public"]["Enums"]["txn_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "finance_transactions_source_submission_id_fkey"
+            columns: ["source_submission_id"]
+            isOneToOne: false
+            referencedRelation: "finance_submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          batch: string | null
+          can_submit_finance: boolean
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean
+          mfa_enabled: boolean
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          batch?: string | null
+          can_submit_finance?: boolean
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          is_active?: boolean
+          mfa_enabled?: boolean
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          batch?: string | null
+          can_submit_finance?: boolean
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean
+          mfa_enabled?: boolean
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin_or_super: { Args: { _user_id: string }; Returns: boolean }
+      log_audit_event: {
+        Args: {
+          _action: string
+          _details?: Json
+          _entity_id?: string
+          _entity_type: string
+        }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "member" | "honourable" | "admin" | "super_admin"
+      submission_status: "pending" | "approved" | "rejected"
+      txn_type: "income" | "expense"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +422,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["member", "honourable", "admin", "super_admin"],
+      submission_status: ["pending", "approved", "rejected"],
+      txn_type: ["income", "expense"],
+    },
   },
 } as const
