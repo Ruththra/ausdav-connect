@@ -29,6 +29,7 @@ import AdminAnnouncementsPage from "@/pages/admin/AdminAnnouncementsPage";
 import AdminAuditPage from "@/pages/admin/AdminAuditPage";
 import AdminSettingsPage from "@/pages/admin/AdminSettingsPage";
 import AdminPermissionsPage from "@/pages/admin/AdminPermissionsPage";
+import AdminEventsPage from "@/pages/admin/AdminEventsPage";
 import FinanceSubmitPage from "@/pages/admin/finance/FinanceSubmitPage";
 import FinanceVerifyPage from "@/pages/admin/finance/FinanceVerifyPage";
 import FinanceLedgerPage from "@/pages/admin/finance/FinanceLedgerPage";
@@ -90,6 +91,7 @@ const App = () => {
                     <Route path="dashboard" element={<AdminDashboardPage />} />
                     <Route path="profile" element={<AdminProfilePage />} />
                     <Route path="members" element={<AdminMembersPage />} />
+                    <Route path="events" element={<AdminEventsPage />} />
                     <Route path="announcements" element={<AdminAnnouncementsPage />} />
                     <Route path="permissions" element={<AdminPermissionsPage />} />
                     <Route path="audit" element={<AdminAuditPage />} />
