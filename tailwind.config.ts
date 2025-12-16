@@ -44,6 +44,10 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        tertiary: {
+          DEFAULT: "hsl(var(--tertiary))",
+          foreground: "hsl(var(--tertiary-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -67,6 +71,15 @@ export default {
           glow: "hsl(var(--blue-glow))",
           soft: "hsl(var(--blue-soft))",
           deep: "hsl(var(--blue-deep))",
+        },
+        cyan: {
+          primary: "hsl(var(--cyan-primary))",
+          glow: "hsl(var(--cyan-glow))",
+          soft: "hsl(var(--cyan-soft))",
+        },
+        purple: {
+          primary: "hsl(var(--purple-primary))",
+          glow: "hsl(var(--purple-glow))",
         },
         success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
@@ -94,6 +107,8 @@ export default {
       boxShadow: {
         'glow': 'var(--shadow-glow)',
         'glow-strong': 'var(--shadow-glow-strong)',
+        'glow-blue': 'var(--shadow-glow-blue)',
+        'glow-purple': 'var(--shadow-glow-purple)',
       },
     },
   },
