@@ -20,17 +20,20 @@ const CommitteePage: React.FC = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="gradient-hero py-16 md:py-24">
+      <section
+        className="py-16 md:py-24"
+        style={{ backgroundImage: 'var(--gradient-hero)' }}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-4">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
               {t('committee.title')}
             </h1>
-            <p className="text-primary-foreground/80 text-lg">
+            <p className="text-foreground/80 text-lg">
               {t('committee.subtitle')}
             </p>
           </motion.div>

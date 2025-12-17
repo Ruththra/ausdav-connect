@@ -124,10 +124,13 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12">
       {/* Background effects */}
-      <div className="absolute inset-0 gradient-mesh opacity-30" />
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{ backgroundImage: 'var(--gradient-hero)' }}
+      />
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
       </div>
 
       <motion.div
@@ -147,7 +150,7 @@ const LoginPage: React.FC = () => {
 
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center neon-glow">
               <Sparkles className="w-8 h-8 text-primary-foreground" />
             </div>
             <h1 className="text-2xl font-bold text-foreground">

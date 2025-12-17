@@ -36,7 +36,7 @@ const MobileNavWidget: React.FC = () => {
       role="navigation"
       aria-label="Mobile navigation"
     >
-      <div className="flex items-center gap-1 px-2 py-2 rounded-full glass-strong border border-border/30 shadow-glow">
+      <div className="flex items-center gap-1 px-2 py-2 rounded-full glass-card border border-border/30 neon-glow">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
@@ -93,7 +93,7 @@ const MobileNavWidget: React.FC = () => {
           aria-label={language === 'en' ? 'Donate' : 'நன்கொடை'}
           className={cn(
             "relative flex items-center justify-center w-12 h-12 ml-1 rounded-full transition-all duration-300",
-            "bg-primary text-primary-foreground shadow-glow",
+            "bg-primary text-primary-foreground neon-glow",
             "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             "hover:scale-105 active:scale-95",
             isActive('/donate') && "ring-2 ring-primary-foreground/50"

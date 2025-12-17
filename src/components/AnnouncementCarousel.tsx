@@ -81,7 +81,7 @@ const AnnouncementCarousel: React.FC<AnnouncementCarouselProps> = ({ announcemen
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                     whileHover={{ y: -5, scale: 1.02 }}
-                    className={`glass-card rounded-2xl p-6 h-full border ${style.border} hover-glow cursor-pointer group`}
+                    className={`glass-card rounded-2xl p-6 h-full border ${style.border} neon-glow-hover cursor-pointer group`}
                   >
                     <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${style.bg} opacity-50`} />
                     

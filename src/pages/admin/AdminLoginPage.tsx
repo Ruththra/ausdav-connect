@@ -175,7 +175,7 @@ export default function AdminLoginPage() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/20 flex items-center justify-center shadow-glow">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/20 flex items-center justify-center neon-glow">
             <span className="text-3xl font-bold text-primary">A</span>
           </div>
           <h1 className="text-2xl font-bold text-foreground">AUSDAV Admin</h1>

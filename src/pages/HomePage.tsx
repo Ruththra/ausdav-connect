@@ -75,19 +75,19 @@ const HomePage: React.FC = () => {
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background layers */}
         <div className="absolute inset-0 bg-background" />
-        <motion.div 
-          style={{ y }}
-          className="absolute inset-0 gradient-mesh"
+        <motion.div
+          style={{ y, backgroundImage: 'var(--gradient-hero)' }}
+          className="absolute inset-0"
         />
         
-        {/* Animated orbs */}
+        {/* Animated glow orbs */}
         <motion.div 
           animate={{ 
             x: [0, 100, 0],
             y: [0, -50, 0],
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="orb orb-gold w-[600px] h-[600px] -top-64 -right-64"
+          className="absolute w-[600px] h-[600px] -top-64 -right-64 rounded-full bg-primary/10 blur-3xl"
         />
         <motion.div 
           animate={{ 
@@ -95,14 +95,14 @@ const HomePage: React.FC = () => {
             y: [0, 80, 0],
           }}
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="orb orb-blue w-[500px] h-[500px] -bottom-64 -left-64"
+          className="absolute w-[500px] h-[500px] -bottom-64 -left-64 rounded-full bg-secondary/15 blur-3xl"
         />
         <motion.div 
           animate={{ 
             scale: [1, 1.3, 1],
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="orb orb-purple w-[400px] h-[400px] top-1/3 left-1/4"
+          className="absolute w-[400px] h-[400px] top-1/3 left-1/4 rounded-full bg-accent/15 blur-3xl"
         />
 
         {/* Content */}
@@ -135,7 +135,7 @@ const HomePage: React.FC = () => {
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
             >
               <span className="text-foreground">{language === 'en' ? 'Building ' : 'எதிர்காலத்தை '}</span>
-              <span className="text-gradient">{language === 'en' ? 'Tomorrow\'s' : 'கட்டமைக்கும்'}</span>
+              <span className="gradient-text">{language === 'en' ? 'Tomorrow\'s' : 'கட்டமைக்கும்'}</span>
               <br />
               <span className="text-foreground">{language === 'en' ? 'Leaders Today' : 'இன்றைய தலைவர்கள்'}</span>
             </motion.h1>
@@ -181,9 +181,9 @@ const HomePage: React.FC = () => {
                 <motion.div
                   key={idx}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="glass-card rounded-2xl p-6 hover-glow"
+                  className="glass-card rounded-2xl p-6 neon-glow-hover"
                 >
-                  <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">{stat.value}</div>
+                  <div className="text-3xl md:text-4xl font-bold gradient-text mb-1">{stat.value}</div>
                   <div className="text-sm text-muted-foreground">
                     {language === 'en' ? stat.label : stat.labelTA}
                   </div>
@@ -212,7 +212,10 @@ const HomePage: React.FC = () => {
 
       {/* Who We Are */}
       <section className="py-24 relative">
-        <div className="absolute inset-0 gradient-mesh opacity-30" />
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{ backgroundImage: 'var(--gradient-hero)' }}
+        />
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -227,7 +230,7 @@ const HomePage: React.FC = () => {
               </div>
               <h2 className="text-3xl md:text-5xl font-bold mb-6">
                 {language === 'en' ? 'Who ' : ''}
-                <span className="text-gradient">{language === 'en' ? 'We Are' : 'நாங்கள் யார்?'}</span>
+                <span className="gradient-text">{language === 'en' ? 'We Are' : 'நாங்கள் யார்?'}</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed mb-8">
                 {t('home.who.description')}
@@ -247,7 +250,7 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="glass-card rounded-3xl p-8 relative overflow-hidden hover-lift">
+              <div className="glass-card rounded-3xl p-8 relative overflow-hidden transition-transform duration-300 hover:-translate-y-3 neon-glow-hover">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent/10 rounded-full blur-3xl" />
                 <div className="relative z-10 text-center py-12">
@@ -280,7 +283,7 @@ const HomePage: React.FC = () => {
             </div>
             <h2 className="text-3xl md:text-5xl font-bold">
               {language === 'en' ? 'What ' : ''}
-              <span className="text-gradient">{language === 'en' ? 'We Do' : 'நாங்கள் என்ன செய்கிறோம்'}</span>
+              <span className="gradient-text">{language === 'en' ? 'We Do' : 'நாங்கள் என்ன செய்கிறோம்'}</span>
             </h2>
           </motion.div>
 
@@ -298,7 +301,7 @@ const HomePage: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 whileHover={{ y: -10 }}
-                className="glass-card rounded-2xl p-8 text-center hover-glow group"
+                className="glass-card rounded-2xl p-8 text-center neon-glow-hover group"
               >
                 <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <item.icon className="w-8 h-8 text-primary" />
@@ -313,7 +316,10 @@ const HomePage: React.FC = () => {
 
       {/* Annual Events Timeline */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 gradient-mesh opacity-20" />
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{ backgroundImage: 'var(--gradient-hero)' }}
+        />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -323,7 +329,7 @@ const HomePage: React.FC = () => {
           >
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
               {language === 'en' ? 'Annual ' : 'வருடாந்த '}
-              <span className="text-gradient">{language === 'en' ? 'Events' : 'நிகழ்வுகள்'}</span>
+              <span className="gradient-text">{language === 'en' ? 'Events' : 'நிகழ்வுகள்'}</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {language === 'en' 
@@ -349,7 +355,7 @@ const HomePage: React.FC = () => {
                   <div className={`flex-1 ${idx % 2 === 0 ? 'text-right' : 'text-left'}`}>
                     <motion.div 
                       whileHover={{ scale: 1.02 }}
-                      className={`inline-block glass-card rounded-2xl p-6 hover-glow ${idx % 2 === 0 ? 'mr-6' : 'ml-6'}`}
+                      className={`inline-block glass-card rounded-2xl p-6 neon-glow-hover ${idx % 2 === 0 ? 'mr-6' : 'ml-6'}`}
                     >
                       <span className="text-xs font-bold text-primary uppercase tracking-wider">{event.month}</span>
                       <p className="font-bold text-lg mt-2">
@@ -361,7 +367,7 @@ const HomePage: React.FC = () => {
                   {/* Center icon */}
                   <motion.div 
                     whileHover={{ scale: 1.2, rotate: 10 }}
-                    className="relative z-10 w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-glow flex-shrink-0"
+                    className="relative z-10 w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center neon-glow flex-shrink-0"
                   >
                     <event.icon className="w-6 h-6 text-primary-foreground" />
                   </motion.div>
@@ -385,7 +391,7 @@ const HomePage: React.FC = () => {
           >
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
               {language === 'en' ? 'Our ' : 'எங்கள் '}
-              <span className="text-gradient">{language === 'en' ? 'Leadership' : 'தலைமை'}</span>
+              <span className="gradient-text">{language === 'en' ? 'Leadership' : 'தலைமை'}</span>
             </h2>
           </motion.div>
 
@@ -398,9 +404,9 @@ const HomePage: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 whileHover={{ y: -10 }}
-                className="glass-card rounded-2xl p-8 text-center hover-glow"
+                className="glass-card rounded-2xl p-8 text-center neon-glow-hover"
               >
-                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-glow">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center neon-glow">
                   <span className="text-3xl font-bold text-primary-foreground">
                     {member.name.charAt(0)}
                   </span>
@@ -434,7 +440,10 @@ const HomePage: React.FC = () => {
 
       {/* Feedback Section */}
       <section className="py-24 relative">
-        <div className="absolute inset-0 gradient-mesh opacity-30" />
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{ backgroundImage: 'var(--gradient-hero)' }}
+        />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl mx-auto">
             <motion.div

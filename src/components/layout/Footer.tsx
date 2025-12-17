@@ -24,7 +24,10 @@ const Footer: React.FC = () => {
   return (
     <footer className="relative bg-background overflow-hidden">
       {/* Gradient background */}
-      <div className="absolute inset-0 gradient-mesh opacity-50" />
+      <div
+        className="absolute inset-0 opacity-50"
+        style={{ backgroundImage: 'var(--gradient-hero)' }}
+      />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       
       <div className="container mx-auto px-4 py-16 relative z-10">
@@ -37,7 +40,7 @@ const Footer: React.FC = () => {
             className="space-y-6"
           >
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center neon-glow">
                 <Sparkles className="w-7 h-7 text-primary-foreground" />
               </div>
               <div>

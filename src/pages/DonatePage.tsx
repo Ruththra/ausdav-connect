@@ -27,7 +27,10 @@ const DonatePage: React.FC = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="gradient-hero py-16 md:py-24">
+      <section
+        className="py-16 md:py-24"
+        style={{ backgroundImage: 'var(--gradient-hero)' }}
+      >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -37,10 +40,10 @@ const DonatePage: React.FC = () => {
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-secondary/20 flex items-center justify-center">
               <Heart className="w-10 h-10 text-secondary" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-4">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
               {t('donate.title')}
             </h1>
-            <p className="text-primary-foreground/80 text-lg">
+            <p className="text-foreground/80 text-lg">
               {t('donate.subtitle')}
             </p>
           </motion.div>

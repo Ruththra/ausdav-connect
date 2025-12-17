@@ -44,7 +44,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center gradient-hero"
+          className="fixed inset-0 z-[100] flex items-center justify-center"
+          style={{ backgroundImage: 'var(--gradient-hero)' }}
         >
           <div className="text-center">
             <motion.div
@@ -56,7 +57,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
               {/* Logo */}
               <div className="w-32 h-32 mx-auto mb-6 relative">
                 <div className="absolute inset-0 rounded-full bg-secondary/20 animate-pulse-glow" />
-                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center shadow-glow">
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center neon-glow">
                   <span className="text-4xl font-serif font-bold text-primary">A</span>
                 </div>
               </div>
